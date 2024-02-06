@@ -1,8 +1,11 @@
 import pandas as pd
+import numpy as np
+
 
 class GrantsData:
+
     def __init__(self, path: str):
-        self.df = pd.read_csv(path)
+        self.df = pd.read_csv(path, compression='zip')
 
     def read(self) -> pd.DataFrame:
         """Returns a cleaned dataframe"""
@@ -11,7 +14,7 @@ class GrantsData:
         # Data can have NaNs
         # Different types (reasonable)
         # Different types (unreasonable)
-        print(self.df)
+        return self.df
 
     @staticmethod
     def _select_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -55,7 +58,7 @@ class GrantsData:
         df['pi_names'] = df['pi_names'].str.replace('(contact)', '')
         df['both_names'] = df['pi_names'].apply(lambda x: x.split(',')[:2])
         df[['last_name', 'forename']] = pd.DataFrame(df['both_names'].to_list(), index=df.index)
-        print(df)
+        return(df)
 
         
 
@@ -71,26 +74,13 @@ def read_grants_year(year: int | str) -> pd.DataFrame:
         pd.DataFrame: clean dataframe of grants data
     """
     # We know the filename is: RePORTER_PRJ_C_FY2022.zip
-    path = '/Users/shearer/Desktop/DTSC330/big_dataSP24/big_dataSP24/data/RePORTER_PRJ_C_FY{year}.csv'
-    gd = GrantsData(path.format(year=year))
+    path = 'Users/shearer/Desktop/DTSC330/big_dataSP24/big_dataSP24/data/RePORTER_PRJ_C_FY{year}.zip'
+    gd = GrantsData(path.format(year=year)) # What does this line do in (year = year)
     return gd.read()
-
-def replace_nan(df: pd.DataFrame) -> pd.DataFrame:
-    """Function to replace NaNs with meaningful, non-skewing dates
-
-    Args:
-        df (pd.DataFrame): Data Frame to look for and replace NaNs in
-
-    Returns:
-        pd.DataFrame: Data Frame with all NaNs in 'budget_start' replaced with
-        2022-06-01.  I chose to do this because it is the middle of the year,
-        would likely not affect the data as much as january 1 or december 1.
-    """
-    df.loc[df['bugdet_start'].isna()]['budget_start'] = '2022-06-01'
-    return df
 
 
 if __name__ == '__main__':
-    import numpy as np
-    df = read_grants_year(2022)
-    df.read()
+
+    read_grants_year(2022)
+    # Decided to not remove NaNs from the budget start, as I feel date
+    # will not be important for my analysis
