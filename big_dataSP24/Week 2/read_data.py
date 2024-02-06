@@ -1,9 +1,8 @@
 import pandas as pd
 
-
 class GrantsData:
     def __init__(self, path: str):
-        self.df = pd.read_csv(path, compression='zip')
+        self.df = pd.read_csv(path)
 
     def read(self) -> pd.DataFrame:
         """Returns a cleaned dataframe"""
@@ -72,17 +71,26 @@ def read_grants_year(year: int | str) -> pd.DataFrame:
         pd.DataFrame: clean dataframe of grants data
     """
     # We know the filename is: RePORTER_PRJ_C_FY2022.zip
-    path = 'data/RePORTER_PRJ_C_FY{year}.zip'
+    path = '/Users/shearer/Desktop/DTSC330/big_dataSP24/big_dataSP24/data/RePORTER_PRJ_C_FY{year}.csv'
     gd = GrantsData(path.format(year=year))
     return gd.read()
+
+def replace_nan(df: pd.DataFrame) -> pd.DataFrame:
+    """Function to replace NaNs with meaningful, non-skewing dates
+
+    Args:
+        df (pd.DataFrame): Data Frame to look for and replace NaNs in
+
+    Returns:
+        pd.DataFrame: Data Frame with all NaNs in 'budget_start' replaced with
+        2022-06-01.  I chose to do this because it is the middle of the year,
+        would likely not affect the data as much as january 1 or december 1.
+    """
+    df.loc[df['bugdet_start'].isna()]['budget_start'] = '2022-06-01'
+    return df
 
 
 if __name__ == '__main__':
     import numpy as np
-    # '/mnt/search/data/grants/RePORTER_PRJ_C_FY2022.zip'
-
-    vec1 = [i for i in range(1_000_000)]
-    vec2 = np.arange(1_000_000)
-
-    read_grants_year(2022)
-    # gd = GrantsData()
+    df = read_grants_year(2022)
+    df.read()
