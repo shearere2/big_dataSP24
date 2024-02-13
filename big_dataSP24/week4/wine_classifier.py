@@ -8,9 +8,10 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 import sklearn.model_selection
+import sklearn.metrics
 
 
-class ml_classifier():  # Camel case, because it's a class, matches filename
+class WineClassifier():  # Camel case, because it's a class, matches filename
     def __init__(self, model_dir: str, model_type: str = 'xgb'):  # maybe a base directory?
         self.model = (self._initialize_xgb_model() if model_type == 'xgb' 
                       else self._initialize_random_forests())
@@ -30,7 +31,7 @@ class ml_classifier():  # Camel case, because it's a class, matches filename
         features, features_test, labels, labels_test = (
             sklearn.model_selection.train_test_split(
                 features, labels, test_size=0.2))
-        self.model.fit(features, labels)
+        self.model.fit(features, labels.astype('float'))
         self.metadata['training_date'] = datetime.datetime.now().strftime('%Y%m%d')
         self.metadata['training_rows'] = len(labels)
         self.metadata['accuracy'] = self.assess(features_test, labels_test)
@@ -66,8 +67,9 @@ class ml_classifier():  # Camel case, because it's a class, matches filename
         Returns:
             float: the accuracy of our model
         """
+        
         pred_labels = self.predict(features)
-        return (pred_labels == labels).sum()/len(labels)
+        return sklearn.metrics.mean_squared_error(labels, pred_labels)
 
     def save(self, filename: str, overwrite: bool = False):
         """Save filename location model_path on hard drive"""
@@ -78,10 +80,18 @@ class ml_classifier():  # Camel case, because it's a class, matches filename
         if filename[:6] != today:
             filename = f'{today}_{filename}'
         
+        # ugly way:
+        # if filename[-5:].lower() != '.json':
+        #     filename = filename + '.json'
+        # # ugly way 2:
+        # dot_pos = filename.find('.')
+        # if filename[dot_pos:] != '.json':
+        #     filename = filename + '.json'
+        # pretty way
         if os.path.splitext(filename)[1] != '.json':
             filename = filename + '.json'
         
-        # Saving file
+        # We are saving our file here.
         path = os.path.join(self.model_dir, filename)
         metadata_path = os.path.splitext(path)[0] + '_metadata.json'
 
@@ -93,7 +103,7 @@ class ml_classifier():  # Camel case, because it's a class, matches filename
             raise FileExistsError('Cannot overwrite existing file')
 
         self.model.save_model(path)
-        with open(metadata_path) as fo:
+        with open(metadata_path, 'w') as fo:
             json.dump(self.metadata, fo)
 
     def load(self, filename: str):
@@ -106,6 +116,6 @@ class ml_classifier():  # Camel case, because it's a class, matches filename
         with open(metadata_path) as fr:
             self.metadata = json.load(fr)
 
-    def _initialize_xgb_model():
+    def _initialize_xgb_model(self):
         """Create a new xgbclassifier"""
-        return xgb.XGBClassifier()
+        return xgb.XGBRegressor()
