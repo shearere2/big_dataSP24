@@ -10,6 +10,8 @@ python = "^3.12"
 pandas = "^2.2.0"
 xgboost = "^2.0.3"
 scikit-learn = "^1.4.1.post1"
+fasttext = {git = "https://github.com/cfculhane/fastText"}
+jarowinkler = "^2.0.1"
 
 
 [build-system]
