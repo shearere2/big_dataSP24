@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "big-datasp24"
+version = "0.1.0"
+description = ""
+authors = ["shearere2 <shearere2@duq.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2.0"
+xgboost = "^2.0.3"
+scikit-learn = "^1.4.1.post1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
