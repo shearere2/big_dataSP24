@@ -1,0 +1,6 @@
+from big_dataSP24.week5 import npi_reader, npi_classifier
+
+df = npi_reader.read('data/npidata_pfile_20240205-20240211.csv')
+nc = npi_classifier.NPIClassifier('Models')
+nc.train(df.drop(columns=['last_name']), df['quality'])
+nc.save('npi_classifier')
