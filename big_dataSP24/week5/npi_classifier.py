@@ -12,7 +12,8 @@ import sklearn.model_selection
 
 class NPIClassifier(): 
     def __init__(self, model_dir: str, model_type: str = 'xgb'): 
-        self.model = self._initialize_xgb_model()
+        self.model = (NPIClassifier._initialize_xgb_model() if model_type == 'xgb' 
+                      else self._initialize_random_forests())
         self.metadata = {}
         self.model_dir = model_dir
 
