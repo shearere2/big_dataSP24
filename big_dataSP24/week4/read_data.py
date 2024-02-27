@@ -14,7 +14,7 @@ class GrantsData:
         # Data can have NaNs
         # Different types (reasonable)
         # Different types (unreasonable)
-        return self.df
+        return df
 
     @staticmethod
     def _select_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -31,7 +31,7 @@ class GrantsData:
         mapper = {
             'APPLICATION_ID': 'application_id',
             'BUDGET_START': 'budget_start',
-            'ACTIVITY': 'grant_type',
+            'ACTIVITY': 'type',
             'TOTAL_COST': 'total_cost',
             'PI_NAMEs': 'pi_names',
             'PI_IDS': 'pi_ids',
@@ -74,7 +74,7 @@ def read_grants_year(year: int | str) -> pd.DataFrame:
         pd.DataFrame: clean dataframe of grants data
     """
     # We know the filename is: RePORTER_PRJ_C_FY2022.zip
-    path = 'Users/shearer/Desktop/DTSC330/big_dataSP24/big_dataSP24/data/RePORTER_PRJ_C_FY{year}.zip'
+    path = 'data/RePORTER_PRJ_C_FY{year}.zip'
     gd = GrantsData(path.format(year=year)) # What does this line do in (year = year)
     return gd.read()
 
