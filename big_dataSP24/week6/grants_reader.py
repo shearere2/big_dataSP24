@@ -1,9 +1,7 @@
 import pandas as pd
-import numpy as np
 
 
-class GrantsData:
-
+class GrantsReader:
     def __init__(self, path: str):
         self.df = pd.read_csv(path, compression='zip')
 
@@ -29,16 +27,16 @@ class GrantsData:
             pd.DataFrame: the subset, clean name dataframe
         """
         mapper = {
-            'APPLICATION_ID': 'grant_application_id',
-            'BUDGET_START': 'grant_budget_start',
+            'APPLICATION_ID': 'application_id',
+            'BUDGET_START': 'budget_start',
             'ACTIVITY': 'grant_type',
-            'TOTAL_COST': 'grant_total_cost',
-            'PI_NAMEs': 'grant_pi_names',
-            'PI_IDS': 'grant_pi_ids',
-            'ORG_NAME': 'grant_organization',
-            'ORG_CITY': 'grant_city',
-            'ORG_STATE': 'grant_state',
-            'ORG_COUNTRY': 'grant_country'
+            'TOTAL_COST': 'total_cost',
+            'PI_NAMEs': 'pi_names',
+            'PI_IDS': 'pi_ids',
+            'ORG_NAME': 'organization',
+            'ORG_CITY': 'city',
+            'ORG_STATE': 'state',
+            'ORG_COUNTRY': 'country'
         }
         return df.rename(columns=mapper)[mapper.values()]
     
@@ -52,12 +50,12 @@ class GrantsData:
         Returns:
             pd.DataFrame: dataframe free of NaNs
         """
-        df['grant_pi_names'] = df['grant_pi_names'].str.split(';')
-        df = df.explode('grant_pi_names')
-        df['grant_is_contact'] = df['grant_pi_names'].str.lower().str.contains('(contact)')
-        df['grant_pi_names'] = df['grant_pi_names'].str.replace('(contact)', '')
-        df['grant_both_names'] = df['grant_pi_names'].apply(lambda x: x.split(',')[:2])
-        df[['grant_last_name', 'grant_forename']] = pd.DataFrame(df['grant_both_names'].to_list(), index=df.index)
+        df['pi_names'] = df['pi_names'].str.split(';')
+        df = df.explode('pi_names')
+        df['is_contact'] = df['pi_names'].str.lower().str.contains('(contact)')
+        df['pi_names'] = df['pi_names'].str.replace('(contact)', '')
+        df['both_names'] = df['pi_names'].apply(lambda x: x.split(',')[:2])
+        df[['last_name', 'forename']] = pd.DataFrame(df['both_names'].to_list(), index=df.index)
         return df
 
         
@@ -74,13 +72,14 @@ def read_grants_year(year: int | str) -> pd.DataFrame:
         pd.DataFrame: clean dataframe of grants data
     """
     # We know the filename is: RePORTER_PRJ_C_FY2022.zip
-    path = 'data/RePORTER_PRJ_C_FY{year}.zip'
-    gd = GrantsData(path.format(year=year)) # What does this line do in (year = year)
+    path = "data/RePORTER_PRJ_C_FY2022.zip"
+    gd = GrantsReader(path.format(year=year))
     return gd.read()
 
 
-if __name__ == '__main__':
 
-    read_grants_year(2022)
-    # Decided to not remove NaNs from the budget start, as I feel date
-    # will not be important for my analysis
+if __name__ == '__main__':
+    import numpy as np
+
+    df = read_grants_year(2022)
+    print(df)

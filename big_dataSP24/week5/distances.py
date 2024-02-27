@@ -8,7 +8,9 @@ class NameDistance():
     def __init__(self, ft_model_path: str = 'data/cc.en.50.bin'):
         self.ft_model = fasttext.load_model(ft_model_path)
 
-    def training_data(self, df: pd.DataFrame) -> pd.DataFrame:
+    def features_from_pairs(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Computes distance features from a dataframe of 
+        pairs of grant_ and npi_ data"""
         # Grants data has
         # last_name, forename, city, state, country
         # NPI data has
@@ -21,8 +23,8 @@ class NameDistance():
         df['jw_dist_forename'] = df.apply(
             lambda row: jarowinkler.jaro_similarity(row['grant_forename'],
                                                     row['npi_forename']), axis=1)
-        df['match_city'] = df.apply(
-            lambda row: row['grant_city'] == row['npi_city'], axis=1)
+        #df['match_city'] = df.apply(
+        #    lambda row: row['grant_city'] == row['npi_city'], axis=1)
         df['match_state'] = df.apply(
             lambda row: row['grant_state'] == row['npi_state'], axis=1)
         

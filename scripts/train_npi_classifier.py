@@ -1,12 +1,15 @@
-from big_dataSP24.week5 import npi_reader, npi_classifier, combine_dfs, distances
-from big_dataSP24.week4 import read_data
+from big_dataSP24.week6 import npi_reader, grants_reader, string_distance_features
+from big_dataSP24.week5 import npi_classifier
 
-model = distances.NameDistance()
-df1 = npi_reader.read('data/npidata_pfile_20240205-20240211.csv')
-df2 = read_data.read_grants_year(2022)
-df = combine_dfs.combine_dfs(df1,df2)
+grants_df = grants_reader.read_grants_year(2022)
+npi_df = npi_reader.read('data/npidata_pfile_20240205-20240211.csv')
 
-train = model.training_data(df)
+sdf = string_distance_features.StringDistanceFeatures()
+comb_df = sdf.combine_prediction_data(grants_df, npi_df)
+features = sdf.features_from_pairs(comb_df)
+print(features)
+
+train = " "
 
 nc = npi_classifier.NPIClassifier('Models')
 

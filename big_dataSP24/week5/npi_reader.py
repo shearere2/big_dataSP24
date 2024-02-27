@@ -6,14 +6,14 @@ def read(path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
     mapper = {
             'NPI': 'npi',
-            'Healthcare Provider Taxonomy Code_1': 'taxonomy_code',
-            'Provider Last Name (Legal Name)': 'last_name',
-            'Provider First Name': 'forename',
-            'Provider First Line Business Practice Location Address': 'address',
-            'Certification Date': 'cert_date',
-            'Provider Business Practice Location Address State Name': 'city',
-            'Provider Business Practice Location Address State Name': 'state',
-            'Provider Business Practice Location Address Country Code (If outside U.S.)': 'country'
+            'Healthcare Provider Taxonomy Code_1': 'npi_taxonomy_code',
+            'Provider Last Name (Legal Name)': 'npi_last_name',
+            'Provider First Name': 'npi_forename',
+            'Provider First Line Business Practice Location Address': 'npi_address',
+            'Certification Date': 'npi_cert_date',
+            'Provider Business Practice Location Address State Name': 'npi_city',
+            'Provider Business Practice Location Address State Name': 'npi_state',
+            'Provider Business Practice Location Address Country Code (If outside U.S.)': 'npi_country'
         }
     
     df = df.rename(columns=mapper)[mapper.values()]
