@@ -14,6 +14,7 @@ print(features)
 
 nc = npi_classifier.NPIClassifier('Models')
 
-nc.train(features)
+nc.train(features,train['is_match'])
+nc.predict()
 
 nc.save('npi_classifier')

@@ -53,7 +53,7 @@ class NPIClassifier():
             raise ValueError('Model must be trained before predicting')
         
         if proba:
-            return self.model.predict_proba(features)[:, 0]
+            return self.model.predict_proba(features)[:,1]
         return self.model.predict(features)
     
     def assess(self, features: pd.DataFrame, labels: pd.Series) -> float:

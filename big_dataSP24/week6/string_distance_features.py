@@ -33,8 +33,8 @@ class StringDistanceFeatures():
         df['jw_dist_first'] = df.apply(lambda row: 
                                  jarowinkler.jaro_similarity(row['grant_forename'],
                                                             row['npi_forename']), axis = 1)
-        # df['match_city'] = df.apply(lambda row: 
-        #                             (row['grant_city'] == row['npi_city']), axis = 1)
+        df['match_city'] = df.apply(lambda row: 
+                                     (row['grant_city'] == row['npi_city']), axis = 1)
         df['match_state'] = df.apply(lambda row: 
                                     (row['grant_state'] == row['npi_state']), axis = 1)
         
