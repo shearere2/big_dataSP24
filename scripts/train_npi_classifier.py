@@ -9,12 +9,13 @@ sdf = string_distance_features.StringDistanceFeatures()
 train = pd.read_csv('data/toy_training.csv')
 comb_df = sdf.combine_prediction_data(grants_df, npi_df)
 features = sdf.features_from_pairs(train)
+features2 = sdf.features_from_pairs(comb_df)
 print(features)
 
 
 nc = npi_classifier.NPIClassifier('Models')
 
 nc.train(features,train['is_match'])
-nc.predict()
+nc.predict(features2)
 
 nc.save('npi_classifier')
