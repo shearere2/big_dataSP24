@@ -7,13 +7,14 @@ CREATE TABLE IF NOT EXISTS npi (
     lastname VARCHAR(100) NOT NULL,
     forename VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);'''
+);
+'''
 
 conn = sqlite3.connect('data/grant_npi.db')
 cursor = conn.cursor()
 
-version_query = 'select sqlite_version();'
-cursor.execute(query) # CHange to version_query to see if sqlite is up to date
+# version_query = 'select sqlite_version();'
+cursor.execute(query)
 record = cursor.fetchall()
 print('version is: ', record)
 
