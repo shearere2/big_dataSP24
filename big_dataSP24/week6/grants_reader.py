@@ -56,6 +56,7 @@ class GrantsReader:
         df['pi_names'] = df['pi_names'].str.replace('(contact)', '')
         df['both_names'] = df['pi_names'].apply(lambda x: x.split(',')[:2])
         df[['last_name', 'forename']] = pd.DataFrame(df['both_names'].to_list(), index=df.index)
+        df = df.drop(['both_names'], axis=1)
         return df
 
         
