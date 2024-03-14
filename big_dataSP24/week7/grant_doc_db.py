@@ -11,14 +11,21 @@ def db():
     return conn
 
 
-def npi_csv_to_db(csv_path: str):
+def grants_csv_to_db():
     df = grants_reader.read_grants_year(22)
-    df.to_sql('npi',
+    df.to_sql('grants',
               db(),
               if_exists='append',
               index=False)
               # method='multi',
               # chunksize=1000
+    
+def npi_csv_to_db(csv_path: str):
+    df = npi_reader.read(csv_path)
+    df.to_sql('npi',
+              db(),
+              if_exists='append',
+              index=False)
 
 
 # # Another slash
@@ -34,4 +41,5 @@ def npi_csv_to_db(csv_path: str):
 
 
 if __name__ == '__main__':
-    npi_csv_to_db('')
+    grants_csv_to_db()
+    npi_csv_to_db('data/npidata_pfile_20240205-20240211.csv')
