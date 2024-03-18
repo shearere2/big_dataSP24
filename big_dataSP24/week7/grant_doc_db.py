@@ -17,8 +17,6 @@ def grants_csv_to_db():
               db(),
               if_exists='append',
               index=False)
-              # method='multi',
-              # chunksize=1000
     
 def npi_csv_to_db(csv_path: str):
     df = npi_reader.read(csv_path)
