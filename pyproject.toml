@@ -15,6 +15,7 @@ jarowinkler = "^2.0.1"
 pyarrow = "^15.0.0"
 sentence-transformers = "^2.5.1"
 sqlalchemy = "^2.0.28"
+matplotlib = "^3.8.3"
 
 
 [build-system]
