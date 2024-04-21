@@ -1,6 +1,5 @@
 """Create the framework for training our neural network"""
-
-from grant_doctor_map import loss, mlp, optimizer, tensor, data_iterator
+from big_dataSP24 import loss, mlp, optimizer, tensor, data_iterator
 
 def train(neural_net: mlp.MLP,
           features: tensor.Tensor,

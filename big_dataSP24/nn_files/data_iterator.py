@@ -2,7 +2,7 @@
 import numpy as np
 from typing import Iterator
 
-from grant_doctor_map import tensor
+from big_dataSP24 import tensor
 
 
 class DataIterator():

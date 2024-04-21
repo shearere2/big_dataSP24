@@ -5,7 +5,7 @@ feedforward
 from typing import Callable
 import numpy as np
 
-from grant_doctor_map import tensor
+from big_dataSP24 import tensor
 
 
 class Layer():

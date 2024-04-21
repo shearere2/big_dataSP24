@@ -2,7 +2,7 @@
 deep neural network is a collection of layers that pass information
 forward.
 """
-from grant_doctor_map import tensor, layer
+from big_dataSP24 import tensor, layer
 
 
 class MLP():
