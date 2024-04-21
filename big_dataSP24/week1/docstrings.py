@@ -20,4 +20,4 @@ def create_new_dataframe() -> pd.DataFrame:
     Returns:
         pd.DataFrame: dataframe containing dummy data
     """
-    return pd.DataFrame([[1, 2,3 ]], columns=['test', 'random', 'name'])
+    return pd.DataFrame([[1,2,3]],columns=['test','random','name'])
