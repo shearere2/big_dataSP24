@@ -37,25 +37,32 @@ def autoencoder(n_input: int,
 
 
 if __name__ == '__main__':
+    import pandas as pd
     from big_dataSP24.week4 import read_wine_data
-
+    
     df = read_wine_data.read()
     labels = df['quality']
-    features = df[[col for col in df.columns if col !='quality']]
-
-    encoder_model, training_model = autoencoder(n_input=11,n_bottleneck=2,
-                                                n_layers=[8,6,4])
+    features = df[[col for col in df.columns if col != 'quality']]
     
+    # Min max scaling-- maybe you want to 
     for col in features:
         features[col] -= features[col].min()
-        features[col] /= features[col].max()
-
-    print('BEFORE')
-    print(encoder_model.predict(features))
-
-    # An autoencoder is defined as fitting the output data equal to the input data
-    training_model.fit(features.values,features.values,
-                       epochs=8, batch_size=32, shuffle=True)
+        features[col] /= features[col].max() # equivalent to features[col] = features[col]/
     
-    print("AFTER")
-    print(encoder_model.predict(features))
+    # An autoencoder is defined as fitting the output data equal to the
+    # input data
+    
+    for n_bottleneck in range(2, 6):
+        n_layers = [8, 6, 4] if n_bottleneck < 4 else [8, 7, 6]
+        encoder_model, training_model = autoencoder(n_input=11, 
+                                                    n_bottleneck=n_bottleneck, 
+                                                    n_layers=n_layers)
+        
+        training_model.fit(features.values, features.values,
+                        epochs=50,
+                        batch_size=32,
+                        shuffle=True)
+
+        data = encoder_model.predict(features)
+        df = pd.DataFrame(data, columns=[f'dim{n}' for n in range(data.shape[1])])
+        df.to_csv(f'data/dimensionality_reduced_wine_{n_bottleneck}.csv', index=False)
