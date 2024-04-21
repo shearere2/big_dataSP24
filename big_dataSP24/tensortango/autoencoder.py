@@ -37,7 +37,7 @@ def autoencoder(n_input: int,
 
 
 if __name__ == '__main__':
-    import read_wine_data
+    from big_dataSP24.week4 import read_wine_data
 
     df = read_wine_data.read()
     labels = df['quality']

@@ -5,7 +5,7 @@ feedforward
 from typing import Callable
 import numpy as np
 
-from big_dataSP24 import tensor
+from big_dataSP24.tensortango import tensor
 
 
 class Layer():
@@ -106,6 +106,18 @@ def tanh_prime(x: tensor.Tensor) -> tensor.Tensor:
     return 1 - y**2
 
 
+def relu(x: tensor.Tensor) -> tensor.Tensor:
+    return np.clip(x, 0, None)
+
+def relu_prime(x: tensor.Tensor) -> tensor.Tensor:
+    return (x > 0).astype(float)
+
+
 class Tanh(Activation):
     def __init__(self, input_size: int, output_size: int):
         super().__init__(input_size, output_size, tanh, tanh_prime)
+
+
+class Relu(Activation):
+    def __init__(self, input_size: int, output_size: int):
+        super().__init__(input_size, output_size, relu, relu_prime)

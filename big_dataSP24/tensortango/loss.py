@@ -3,7 +3,7 @@ than the difference between where I am now and where I want to be.
 """
 
 import numpy as np
-from big_dataSP24 import tensor
+from big_dataSP24.tensortango import tensor
 
 
 class Loss():

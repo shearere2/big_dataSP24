@@ -1,5 +1,5 @@
 """Create the framework for training our neural network"""
-from big_dataSP24 import loss, mlp, optimizer, tensor, data_iterator
+from big_dataSP24.tensortango import loss, mlp, optimizer, tensor, data_iterator
 
 def train(neural_net: mlp.MLP,
           features: tensor.Tensor,
@@ -41,7 +41,7 @@ def train(neural_net: mlp.MLP,
 
 if __name__ == "__main__":
     import numpy as np
-    from grant_doctor_map import layer
+    from big_dataSP24.tensortango import layer
     # use XOR because linear functions cannot represent XOR
     features = np.array([
         [0,0],
