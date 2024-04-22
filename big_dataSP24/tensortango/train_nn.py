@@ -7,7 +7,7 @@ def train(neural_net: mlp.MLP,
           epochs: int=5000,
           iterator = data_iterator.BatchIterator(),
           loss_fn = loss.MSE(),
-          optimizer_obj = optimizer.SGD(),
+          optimizer_obj = optimizer.SGD(neural_network=0),
           learning_rate: float = 0.05):
     """Train a neural net otherwise known as a multilayer perceptron or 
     fully connected feedforward network.
@@ -26,7 +26,7 @@ def train(neural_net: mlp.MLP,
         learning_rate (float, optional): the amount of error to include
         in each backprop step. Defaults to 0.05.
     """
-    optim = optimizer(neural_net, learning_rate)
+    optim = optimizer.Optimizer(neural_net, learning_rate)
     for epoch in range(epochs):
         epoch_loss = 0.0
         for batch in iterator(features,labels):
