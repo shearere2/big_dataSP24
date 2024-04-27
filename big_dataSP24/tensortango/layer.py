@@ -88,16 +88,33 @@ class Activation(Layer):
         self.f_prime = f_prime
 
     def forward(self, x: tensor.Tensor) -> tensor.Tensor:
+        """Forward function
+
+        Args:
+            x (tensor.Tensor): Input tensor
+
+        Returns:
+            tensor.Tensor: Output tensor
+        """
         self.x = x
         return self.f(self.x @ self.w + self.b)
     
     def backward(self, grad: tensor.Tensor) -> tensor.Tensor:
+        """Backward Function
+
+        Args:
+            grad (tensor.Tensor): Gradient
+
+        Returns:
+            tensor.Tensor: Output tensor
+        """
         self.grad_b = np.sum(grad, axis=0)
         self.grad_w = self.x.T @ grad
         grad = grad @ self.w.T
         return self.f_prime(self.x)*grad
     
 
+"""Activation Functions:"""
 def tanh(x: tensor.Tensor) -> tensor.Tensor:
     return np.tanh(x)
 
